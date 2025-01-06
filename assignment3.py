@@ -5,7 +5,7 @@ import unidecode
 import string
 import time
 
-from utils import char_tensor, random_training_set, time_since, CHUNK_LEN
+from utils import char_tensor, random_training_set, time_since, CHUNK_LEN, log_experiment
 from language_model import plot_loss, diff_temp, custom_train, train, generate
 from model.model import LSTM
 
@@ -86,22 +86,28 @@ def main():
             {'hidden_size': 256, 'lr': 0.005, 'n_layers': 2, 'temperature': 0.8},
             
             # Vary learning rate
-            #{'hidden_size': 128, 'lr': 0.001, 'n_layers': 2, 'temperature': 0.8},
-            #{'hidden_size': 128, 'lr': 0.01, 'n_layers': 2, 'temperature': 0.8},
+            {'hidden_size': 128, 'lr': 0.001, 'n_layers': 2, 'temperature': 0.8},
+            {'hidden_size': 128, 'lr': 0.01, 'n_layers': 2, 'temperature': 0.8},
             
             # Vary layers
-            #{'hidden_size': 128, 'lr': 0.005, 'n_layers': 1, 'temperature': 0.8},
-            #{'hidden_size': 128, 'lr': 0.005, 'n_layers': 3, 'temperature': 0.8},
+            {'hidden_size': 128, 'lr': 0.005, 'n_layers': 1, 'temperature': 0.8},
+            {'hidden_size': 128, 'lr': 0.005, 'n_layers': 3, 'temperature': 0.8},
             
             # Vary temperature
-            #{'hidden_size': 128, 'lr': 0.005, 'n_layers': 2, 'temperature': 0.5},
-            #{'hidden_size': 128, 'lr': 0.005, 'n_layers': 2, 'temperature': 1.0}
+            {'hidden_size': 128, 'lr': 0.005, 'n_layers': 2, 'temperature': 0.5},
+            {'hidden_size': 128, 'lr': 0.005, 'n_layers': 2, 'temperature': 1.0}
         ]
         ########################################################################
-        bpc = custom_train(hyperparam_list)
+        bpc, all_losses = custom_train(hyperparam_list)
 
         for keys, values in bpc.items():
             print("BPC {}: {}".format(keys, values))
+        
+        # Log experiments for each model
+        for i, params in enumerate(hyperparam_list, 1):
+            model_key = f'model_{i}'
+            min_loss = min(all_losses[model_key])
+            log_experiment(params, min_loss, bpc[model_key])
 
     if args.plot_loss:
         # YOUR CODE HERE

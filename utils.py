@@ -5,7 +5,9 @@ import re
 import time
 import math
 import torch
+import csv
 
+from datetime import datetime
 from torch.autograd import Variable
 
 CHUNK_LEN = 200
@@ -50,3 +52,29 @@ def time_since(since):
     m = math.floor(s / 60)
     s -= m * 60
     return '%dm %ds' % (m, s)
+
+def log_experiment(params, min_loss, bpc_score):
+    log_file = 'experiment_logs.csv'
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    
+    # Create header if file doesn't exist
+    try:
+        with open(log_file, 'x', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(['Timestamp', 'Hidden Size', 'Learning Rate', 
+                           'Layers', 'Temperature', 'Min Loss', 'BPC Score'])
+    except FileExistsError:
+        pass
+    
+    # Append experiment results
+    with open(log_file, 'a', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            timestamp,
+            params['hidden_size'],
+            params['lr'],
+            params['n_layers'],
+            params['temperature'],
+            min_loss,
+            bpc_score
+        ])

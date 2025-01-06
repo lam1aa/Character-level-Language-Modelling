@@ -192,20 +192,24 @@ def custom_train(hyperparam_list):
     ################################# STUDENT SOLUTION ##########################
     # Initialize results dictionary
     bpc_dict = {}
+    all_losses_dict = {}
     
     # Train and evaluate each model configuration
     for i, params in enumerate(hyperparam_list, 1):
         # Train model using tuner
-        model, _ = tuner(
+        model, losses = tuner(
             hidden_size=params['hidden_size'],
             lr=params['lr'],
             n_layers=params['n_layers'],
             temperature=params['temperature']
         )
+
+        # Store losses for this model
+        all_losses_dict[f'model_{i}'] = losses
         
         # Compute BPC score on test data
         bpc = compute_bpc(model, string)
         bpc_dict[f'model_{i}'] = bpc
         
-    return bpc_dict
+    return bpc_dict, all_losses_dict
     #############################################################################
