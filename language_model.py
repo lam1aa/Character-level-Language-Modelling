@@ -72,21 +72,24 @@ def tuner(n_epochs=3000, print_every=100, plot_every=10, hidden_size=128, n_laye
         
         # Training tracking
         start = time.time()
+        window_size = 5
         all_losses = []
-        loss_avg = 0
+        loss_window = []
         
         # Training loop
         for epoch in range(1, n_epochs + 1):
             loss = train(decoder, decoder_optimizer, *random_training_set())
-            loss_avg += loss
+            loss_window.append(loss)
+            
+            if len(loss_window) > window_size:
+                loss_window.pop(0)
+                
+            if epoch % plot_every == 0:
+                all_losses.append(sum(loss_window) / len(loss_window))
             
             if epoch % print_every == 0:
                 print('[{} ({} {}%) {:.4f}]'.format(time_since(start), epoch, epoch/n_epochs * 100, loss))
                 print(generate(decoder, start_string, prediction_length, temperature), '\n')
-                
-            if epoch % plot_every == 0:
-                all_losses.append(loss_avg / plot_every)
-                loss_avg = 0
                 
         return decoder, all_losses
         ############################################################################
@@ -115,7 +118,15 @@ def plot_loss(lr_list):
             _, losses = tuner(lr=lr, n_epochs=3000, plot_every=10)
             # Plot loss curve
             epochs = range(len(losses))
-            plt.plot(epochs, losses, label=f'lr={lr}')
+            # Apply exponential moving average
+            alpha = 0.8
+            smoothed = []
+            s = losses[0]
+            for x in losses:
+                s = alpha * s + (1 - alpha) * x
+                smoothed.append(s)
+                
+            plt.plot(epochs, smoothed, label=f'lr={lr}')
         
         # Configure plot
         plt.title(f'Training Loss vs Epochs (Learning Rates Set {graph_idx + 1})')

@@ -79,23 +79,23 @@ def main():
         ####################### STUDENT SOLUTION ###############################
         hyperparam_list = [
             # Baseline
-            {'hidden_size': 128, 'lr': 0.005, 'n_layers': 2, 'temperature': 0.8},
+            #{'hidden_size': 128, 'lr': 0.005, 'n_layers': 2, 'temperature': 0.8},
             
             # Vary hidden_size
             {'hidden_size': 64, 'lr': 0.005, 'n_layers': 2, 'temperature': 0.8},
             {'hidden_size': 256, 'lr': 0.005, 'n_layers': 2, 'temperature': 0.8},
             
             # Vary learning rate
-            {'hidden_size': 128, 'lr': 0.001, 'n_layers': 2, 'temperature': 0.8},
-            {'hidden_size': 128, 'lr': 0.01, 'n_layers': 2, 'temperature': 0.8},
+            #{'hidden_size': 128, 'lr': 0.001, 'n_layers': 2, 'temperature': 0.8},
+            #{'hidden_size': 128, 'lr': 0.01, 'n_layers': 2, 'temperature': 0.8},
             
             # Vary layers
-            {'hidden_size': 128, 'lr': 0.005, 'n_layers': 1, 'temperature': 0.8},
-            {'hidden_size': 128, 'lr': 0.005, 'n_layers': 3, 'temperature': 0.8},
+            #{'hidden_size': 128, 'lr': 0.005, 'n_layers': 1, 'temperature': 0.8},
+            #{'hidden_size': 128, 'lr': 0.005, 'n_layers': 3, 'temperature': 0.8},
             
             # Vary temperature
-            {'hidden_size': 128, 'lr': 0.005, 'n_layers': 2, 'temperature': 0.5},
-            {'hidden_size': 128, 'lr': 0.005, 'n_layers': 2, 'temperature': 1.0}
+            #{'hidden_size': 128, 'lr': 0.005, 'n_layers': 2, 'temperature': 0.5},
+            #{'hidden_size': 128, 'lr': 0.005, 'n_layers': 2, 'temperature': 1.0}
         ]
         ########################################################################
         bpc = custom_train(hyperparam_list)
@@ -108,7 +108,7 @@ def main():
         #     TODO:
         #         1) Fill in `lr_list` with learning rates that you want to try.
         ######################### STUDENT SOLUTION #############################
-        lr_list = [0.0001, 0.0005, 0.001, 0.005, 0.01, 0.05, 0.1]
+        lr_list = [0.0001, 0.001, 0.005, 0.01, 0.1]
         ########################################################################
         plot_loss(lr_list)
 
@@ -117,7 +117,7 @@ def main():
         #     TODO:
         #         1) Fill in `temp_list` with temperatures that you want to try.
         ########################### STUDENT SOLUTION ###########################
-        temp_list = [0.2, 0.5, 0.8, 1.0, 2.0]
+        temp_list = [0.1, 0.5, 1.0, 2.0]
         ########################################################################
         diff_temp(temp_list)
 
