@@ -6,12 +6,9 @@
 
 #### What does the code do when you use the flag––default_train. What do the defined parameters do?
 
-When we use the --default_train flag, it initiates a training process for our character-level language 
-model with predefined parameters. The code sets up the training to run for 3000 epochs, 
-which means our model will see and learn from the training data 3000 times. 
+When we use the --default_train flag, it initiates a training process for our character-level language model with predefined parameters. The code sets up the training to run for 3000 epochs, which means our model will see and learn from the training data 3000 times. 
 
-During this process, the hidden_size of 128 determines how much information the model can remember about 
-the text patterns it sees, while n_layers=2 means we're using two layers of LSTM to process this information, allowing the model to process the text twice, each time understanding it at a different level. 
+During this process, the hidden_size of 128 determines how much information the model can remember about the text patterns it sees, while n_layers=2 means we're using two layers of LSTM to process this information, allowing the model to process the text twice, each time understanding it at a different level. 
 
 The learning rate (lr) is set to 0.005, which controls how much the model adjusts its understanding with each training step. In our code, 0.005 means the model adjusts its understanding by 0.5% each time it sees a new piece of text, which helps it learn steadily without making too many mistakes.
 
@@ -42,11 +39,9 @@ For this experiment, several hyperparameters were varied to observe their effect
 ![Training Losses](loss_plot_1.png)
 
 **Discussion:**
-The plot shows how the training loss changes over 3000 epochs for five different learning rates 
-(from 0.0001 to 0.1). Here are some key points:
+The plot shows how the training loss changes over 3000 epochs for five different learning rates (from 0.0001 to 0.1). Here are some key points:
 
-**Lowest learning rate 0.0001 (blue line):** It shows very stable but slow change. It decreases steadily but 
-ends up with the highest loss around 2.4, meaning the model learns too slowly.
+**Lowest learning rate 0.0001 (blue line):** It shows very stable but slow change. It decreases steadily but ends up with the highest loss around 2.4, meaning the model learns too slowly.
 
 **Highest learning rate 0.1 (purple line):** It starts fast but plateaus quickly around a loss of 2.3. It shows some instability, suggesting the learning rate is too high.
 
